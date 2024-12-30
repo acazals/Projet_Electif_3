@@ -14,6 +14,8 @@ class Livre {
         int ISBN;
         std::string Public;
         std::string etat;
+        
+    protected :
         Booktype myBT;
 
     public : 
