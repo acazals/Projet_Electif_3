@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <algorithm>
 
 #include "Album.h"
 #include "BandeDessinee.h"
@@ -26,9 +27,6 @@ class Bibiotheque {
         
         int NbEmpruntsMax;
 
-       
-
-
     public :
 
         void Bibliotheque ( int monCode, std::string monNom, std::string monAdresse, std::map<Booktype, std::vector<Livre*>> maListe, int monMax) {
@@ -39,8 +37,24 @@ class Bibiotheque {
             NbEmpruntsMax = monMax;
         }
 
-        void AjouterLivre( Livre monLivre){
-            
+        void AjouterLivre( Livre* pmonLivre){
+            // on recupere le vecteur correspondant
+            // on y ajoute un pointeur vers le livre
+            monDictionnaire[pmonLivre->getBT()].push_back(pmonLivre);
+        }
+
+        void SupprimerLivre(Livre* pmonlivre){
+            // on fait  une copie du vecteur pour avoir l'objet monvecteur
+            std::vector<Livre*> monvecteur = monDictionnaire[pmonlivre->getBT()];
+            for (int i=0; i< monvecteur.size(); i++ ) {
+                if (*monvecteur[i] == *pmonlivre){
+                    // on prend le vecteur et onsuprime l'element correspondant
+                    // pour cela on utilise un iterateur
+                    monvecteur.erase( monvecteur.begin() +i);                    
+                }
+            }
+            // puis on remet l'objet final ou tout les livres correspondants ont ete supprimes
+            monDictionnaire[pmonlivre->getBT()] = monvecteur;
         }
 
         void Afficher( Booktype montype = BT_none){
@@ -56,44 +70,15 @@ class Bibiotheque {
                 }
             }
 
-            if (montype == BT_rman) {
+            else {
 
                 // on affiche les livres par categorie 
-                for (int i= 0; i< monDictionnaire[BT_rman].size(); i++){
-                    monDictionnaire[BT_rman][i]->Afficher();
+                for (int i= 0; i< monDictionnaire[montype].size(); i++){
+                    monDictionnaire[montype][i]->Afficher();
                 }
                 
             }
-            if (montype == BT_pieceTheatre) {
-
-                // on affiche les livres par categorie 
-                for (int i= 0; i< monDictionnaire[BT_pieceTheatre].size(); i++){
-                    monDictionnaire[BT_pieceTheatre][i]->Afficher();
-                }
-                
-            }
-            if (montype == BT_receuilPoesie) {
-
-                // on affiche les livres par categorie 
-                for (int i= 0; i< monDictionnaire[BT_receuilPoesie].size(); i++){
-                    monDictionnaire[BT_receuilPoesie][i]->Afficher();
-                }
-                
-            }if (montype == BT_bandeDessinee) {
-
-                // on affiche les livres par categorie 
-                for (int i= 0; i< monDictionnaire[BT_receuilPoesie].size(); i++){
-                    monDictionnaire[BT_receuilPoesie][i]->Afficher();
-                }
-                
-            }if (montype == BT_album) {
-
-                // on affiche les livres par categorie 
-                for (int i= 0; i< monDictionnaire[BT_album].size(); i++){
-                    monDictionnaire[BT_album][i]->Afficher();
-                }
-                
-            }
+            
             
             
         }

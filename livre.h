@@ -87,6 +87,17 @@ class Livre {
             }
         }
 
+        bool Isequal(Livre& autreLivre) {
+           
+            if (( this->ISBN == autreLivre.getISBN()))
+            {   return true;}
+            return false;
+        }
+
+        bool operator== (const Livre& other) const {
+            return (this->ISBN == other.getISBN());
+        }
+
 
 
 
