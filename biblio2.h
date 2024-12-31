@@ -8,6 +8,7 @@
 #include <string>
 #include <algorithm>
 
+#include "livre.h"
 #include "Album.h"
 #include "BandeDessinee.h"
 #include "Roman.h"
@@ -35,6 +36,10 @@ class Bibliotheque {
             adresse = monAdresse;
             monDictionnaire = maListe;
             NbEmpruntsMax = monMax;
+        }
+
+        std::map<Booktype, std::vector<Livre*>> getDico() {
+            return monDictionnaire;
         }
 
         void AjouterLivre( Livre* pmonLivre){
@@ -169,7 +174,7 @@ class Bibliotheque {
             }
         }
 
-        void Demander(Livre* pMonLivre, Bibliotheque maBiblio) {
+        void Demander(Livre* pMonLivre, Bibliotheque& maBiblio) {
             try {
                 
                 if (!(maBiblio.ContientLivre(pMonLivre) && (pMonLivre->EstLibre()))){
@@ -181,7 +186,7 @@ class Bibliotheque {
                     // on utilise NEW afin que le pointeur soit valide
                     Livre* pCopie = new Livre(*pMonLivre);
                     this->AjouterLivre(pCopie);
-                    std::cout<<"livre bien ajoute";
+                    std::cout<<"livre bien ajoute"<<"\n";
 
                     // puis on precise dans la biblio ou il a ete pris que il est emprunte
                     maBiblio.PreterLivre( pMonLivre);
@@ -192,6 +197,66 @@ class Bibliotheque {
         }catch (const std::exception& e) {
                 std::cout<< "Exception Capturee";
             }
+        }
+
+
+        static Livre* ObtenirLivre( Livre* pLivre, Bibliotheque& mabiblio){
+            std::vector<Livre*>& monvecteur = mabiblio.getDico()[pLivre->getBT()];
+            try {
+            for (int i=0; i<monvecteur.size(); i++) {
+                if (pLivre->getCode() == monvecteur[i]->getCode()) {
+                    // alors les deux livres sont EXAcTEMENT LES MEMES
+                    return monvecteur[i];
+                }
+            }
+            throw std::runtime_error("Livre exact non trouve");
+             } catch ( const std::exception& e) {
+                std::cout << "Erreur : " << e.what() << std::endl;
+                return nullptr;
+            } 
+        }
+
+        static void Modifier( Livre* pLivre, Bibliotheque& mabiblio, Etat monEtat){
+            std::vector<Livre*>& monvecteur = mabiblio.getDico()[pLivre->getBT()];
+            try {
+            for (int i=0; i<monvecteur.size(); i++) {
+                if (pLivre->getCode() == monvecteur[i]->getCode()) {
+                    // alors les deux livres sont EXAcTEMENT LES MEMES
+                    monvecteur[i]->SetEtat(monEtat);
+                }
+            }
+            throw std::runtime_error("Livre exact non trouve");
+             } catch ( const std::exception& e) {
+                std::cout << "Erreur : " << e.what() << std::endl;
+                
+            } 
+        }
+
+        void Rendre(Livre* pLivre, Bibliotheque& maBibliotheque){
+            try {
+                if (this->ContientLivre(pLivre) && pLivre->getEtat() == Libre && (ObtenirLivre(pLivre, maBibliotheque) != nullptr) ) {
+                    std::cout<<"etape 1 reussie";
+                    // alors notre livre est disponible pour etre rendu, reste a verifier que c'est cette biblio 
+                    // qui nous l'a prete 
+                    if (ObtenirLivre(pLivre, maBibliotheque)->getEtat() == Prete){
+                        // alors on est bien dans ce cas : la biblio nous a prete ce livre
+                        // on lui rend
+                        // ce livre precis de cette bibliotheque est desormais libre
+                        Modifier(pLivre, maBibliotheque, Libre);
+                    }
+
+
+                    // finalement on supprime ce livre de chez nous, on ne l'a plus !
+                    this->SupprimerLivre(pLivre);
+                } else {
+                    throw std::runtime_error(" on ne trouve pas exactement ce livre dans cette bibliotheque");
+                }
+            } catch ( const std::exception& e) {
+                std::cout << "Erreur : " << e.what() << std::endl;
+                
+            } 
+
+            
         }
 
 };

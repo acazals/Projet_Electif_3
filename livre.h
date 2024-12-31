@@ -67,6 +67,7 @@ class Livre {
             std::cout<< " ISBN : " << getISBN() << "\n";
             std::cout<< " Public : " << getPublic() << "\n";
             std::cout<< " etat : " << etatToString(getEtat()) << "\n";
+            std::cout<< "BT: " << booktypeToString(myBT) << "\n";
         };
 
         int getCode() const{

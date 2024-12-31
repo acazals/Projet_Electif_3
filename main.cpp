@@ -73,10 +73,37 @@ int main () {
     // std::cout<< "AJOUT" << "\n";
     // bibliotheque1.Afficher(); // la fonction ajout marche bien !
 
-    bibliotheque2.Afficher(BT_bandeDessinee);
+    // bibliotheque2.Afficher(BT_bandeDessinee);
+    // bibliotheque1.Demander(livres2[0], bibliotheque2);
+    // std::cout<< "EMPRUNT" << "\n";
+    // bibliotheque2.Afficher(BT_bandeDessinee);
+
+    // la fonction emprunt marche bien !!
+
+    // finalement : fonction rendre
+
+    livres2[0]->Afficher();
+    std::cout<<"\n";
+    bibliotheque1.Afficher(BT_bandeDessinee);
     bibliotheque1.Demander(livres2[0], bibliotheque2);
     std::cout<< "EMPRUNT" << "\n";
-    bibliotheque2.Afficher(BT_bandeDessinee);
+    bibliotheque1.Afficher(BT_bandeDessinee);
+    // std::cout<< "DANS LA BIBLIO 2 " << "\n"<<"\n";
+    // bibliotheque2.Afficher(BT_bandeDessinee);
+    // std::cout<< "AU FINAL BBL 1 = \n";
+    // for (int i=0; i<bibliotheque1.getDico()[BT_bandeDessinee].size() ; i++) {
+    //     bibliotheque1.getDico()[BT_bandeDessinee][i]->Afficher();
+    // }
+
+    
+
+
+
+    std::cout<<"RETOUR " << "\n";
+    Livre* aRendre = bibliotheque1.getDico()[BT_bandeDessinee][2]; // pointeur vers un livre, livre present dans la BBL 1 emprunte a BBL 2
+    bibliotheque1.Rendre(aRendre, bibliotheque2);
+    bibliotheque1.Afficher(BT_bandeDessinee);
+
 ;
     
     return 0;
