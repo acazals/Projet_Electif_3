@@ -1,0 +1,27 @@
+# Query: "Neuf"
+
+Libre results - 1 file
+
+main.cpp:
+  45:     ReceuilPoesie poesie1(301, "Charles Baudelaire", "Gallimard", 112233445, "Tout public", Libre, "Romantisme");
+  47:     ReceuilPoesie poesie3(303, "Arthur Rimbaud", "La Pléiade", 334455667, "Adolescents", Libre, "Poesie moderne");
+  48:     ReceuilPoesie poesie4(304, "Guillaume Apollinaire", "Seuil", 445566778, "Adultes", Libre, "Surréalisme");
+  49:     ReceuilPoesie poesie5(305, "Andrée Chedid", "Le Livre de Poche", 556677889, "Tout public", Libre, "Contemporain");
+  51:     ReceuilPoesie poesie7(307, "Louis Aragon", "Le Seuil", 778899001, "Adolescents", Libre, "Poésie engagée");
+  53:     ReceuilPoesie poesie9(309, "Pablo Neruda", "Poésie / Gallimard", 990011223, "Tout public", Libre, "Poésie politique");
+  54:     ReceuilPoesie poesie10(310, "Blanche Lemoine", "La Table Ronde", 101112233, "Adultes", Libre, "Poésie féminine");
+  57:     Album album1(401, "Pierre Dumas", "Éditions du Soleil", 112233445, "Tout public", Libre, "Illustrations modernes");
+  58:     Album album2(402, "Alice Lefevre", "Éditions du Vent", 223344556, "Enfants", Libre, "Illustrations colorées");
+  59:     Album album3(403, "Claude Monet", "Musée d'Orsay", 334455667, "Tout public", Libre, "Peintures impressionnistes");
+  61:     Album album5(405, "Henri Matisse", "Éditions du Musée", 556677889, "Adolescents", Libre, "Art moderne");
+  62:     Album album6(406, "Marc Chagall", "Le Louvre", 667788990, "Adultes", Libre, "Art surréaliste");
+  64:     Album album8(408, "Frida Kahlo", "La Fondation Frida Kahlo", 889900112, "Adultes", Libre, "Peintures mexicaines");
+  65:     Album album9(409, "Van Gogh", "Musée Van Gogh", 990011223, "Tout public", Libre, "Peintures post-impressionnistes");
+  66:     Album album10(410, "Kandinsky", "Éditions d'Art", 101112233, "Adultes", Libre, "Art abstrait");
+  69:      PieceTheatre theatre1(501, "Molière", "Gallimard", 112233445, "Tout public", Libre, 17);
+  71:     PieceTheatre theatre3(503, "Sophocle", "Les Belles Lettres", 334455667, "Tout public", Libre, 5);
+  72:     PieceTheatre theatre4(504, "Eugène Ionesco", "La Table Ronde", 445566778, "Adultes", Libre, 20);
+  73:     PieceTheatre theatre5(505, "William Shakespeare", "Folio", 556677889, "Tout public", Libre, 16);
+  75:     PieceTheatre theatre7(507, "Henrik Ibsen", "Actes Sud", 778899001, "Adolescents", Libre, 19);
+  76:     PieceTheatre theatre8(508, "Anton Tchekhov", "Éditions de l'Arche", 889900112, "Tout public", Libre, 19);
+  78:     PieceTheatre theatre10(510, "Pierre Corneille", "Le Livre de Poche", 101112233, "Tout public", Libre, 17);

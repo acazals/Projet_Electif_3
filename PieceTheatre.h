@@ -9,7 +9,7 @@ class PieceTheatre : public Livre {
 
     public :
 
-        PieceTheatre(int monCode, std::string monAuteur, std::string monEditeur, int monISBN, std::string monPublic, std::string monetat, int monsiecle ) : Livre(monCode, monAuteur, monEditeur, monISBN, monPublic, monetat), siecle(monsiecle)
+        PieceTheatre(int monCode, std::string monAuteur, std::string monEditeur, int monISBN, std::string monPublic, Etat monetat, int monsiecle ) : Livre(monCode, monAuteur, monEditeur, monISBN, monPublic, monetat), siecle(monsiecle)
             {
                 myBT = BT_pieceTheatre;
             }
@@ -17,7 +17,7 @@ class PieceTheatre : public Livre {
         Booktype getBT(){
             return myBT;
         }
-        
+
         int getSiecle(){
             return siecle;
         }

@@ -8,7 +8,7 @@ class ReceuilPoesie : public Livre {
 
     public : 
 
-        ReceuilPoesie(int monCode, std::string monAuteur, std::string monEditeur, int monISBN, std::string monPublic, std::string monetat, std::string monIndicateur ) : Livre(monCode, monAuteur, monEditeur, monISBN, monPublic, monetat), Indicateur(monIndicateur)
+        ReceuilPoesie(int monCode, std::string monAuteur, std::string monEditeur, int monISBN, std::string monPublic, Etat monetat, std::string monIndicateur ) : Livre(monCode, monAuteur, monEditeur, monISBN, monPublic, monetat), Indicateur(monIndicateur)
             {
                 myBT = BT_receuilPoesie;
             }

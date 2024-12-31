@@ -9,7 +9,7 @@ class BandeDessinee : public Livre {
 
     public : 
 
-        BandeDessinee(int monCode, std::string monAuteur, std::string monEditeur, int monISBN, std::string monPublic, std::string monetat, std::string mondessinateur ) : Livre(monCode, monAuteur, monEditeur, monISBN, monPublic, monetat), Dessinateur( mondessinateur)
+        BandeDessinee(int monCode, std::string monAuteur, std::string monEditeur, int monISBN, std::string monPublic, Etat monetat, std::string mondessinateur ) : Livre(monCode, monAuteur, monEditeur, monISBN, monPublic, monetat), Dessinateur( mondessinateur)
             {
                 Livre::myBT = BT_bandeDessinee;
             }

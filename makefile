@@ -1,3 +1,3 @@
 
 all:
-	g++ main.cpp -I . -H
+	g++ main.cpp -I . 
