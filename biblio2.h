@@ -69,8 +69,31 @@ class Bibliotheque {
                 }
             }
             // puis on remet l'objet final ou tout les livres correspondants ont ete supprimes
-            //monDictionnaire[pmonlivre->getBT()] = monvecteur;
+            monDictionnaire[pmonlivre->getBT()] = monvecteur;
         }
+
+        void SupprimerLivre2(Livre* pmonLivre) {
+            try {
+                if (this->ContientLivre(pmonLivre)){
+                    // la bibliotheque contient bien ce livre alors on le supprime
+                    std::vector<Livre*>& monvecteur =  monDictionnaire[pmonLivre->getBT()];
+                    // Chercher l'élément à supprimer (pmonLivre est déjà un Livre* ici)
+                    auto it = std::find(monvecteur.begin(), monvecteur.end(), pmonLivre);  // Trouver l'élément
+
+                    if (it != monvecteur.end()) {
+                        // Si l'élément est trouvé, supprimer l'élément du vecteur
+                        delete *it;  // Libérer la mémoire de l'objet pointé par l'itérateur
+                        monvecteur.erase(it);  // Supprimer l'élément du vecteur
+                    } 
+                   
+                } else {
+                    throw std::runtime_error("Livre non existant");
+                }
+            }catch (const std::exception& e) {
+                std::cout<< "Exception Capturee";
+            }
+        }
+
 
         void Afficher( Booktype montype = BT_none){
             if (montype == BT_none){
@@ -99,7 +122,7 @@ class Bibliotheque {
         }
 
         
-
+        // methode pour quand un qdherent veut emprunter un livre
         void EmprunterLivre(Livre* pmonLivre) {
             try {
                 if (!(this->ContientLivre(pmonLivre) && (pmonLivre->EstLibre()))) {
@@ -122,6 +145,30 @@ class Bibliotheque {
             }
         }
 
+
+        // methode pour quand on prete de livre a une autre bibliotheque
+        void PreterLivre(Livre* pmonLivre) {
+            try {
+                if (!(this->ContientLivre(pmonLivre) && (pmonLivre->EstLibre()))) {
+                    throw std::runtime_error("Le livre n'est pas disponible a l'emprunt dans la bibliotheque");
+                } else {
+                    // livre present et libre dans la bibliotheque
+                    // on prend le vecteur qui correspond
+                    std::vector<Livre*>& monvecteur = monDictionnaire[pmonLivre->getBT()];
+                    for (int i=0; i<monvecteur.size(); i++){
+                        if ((monvecteur[i] == pmonLivre) && monvecteur[i]->EstLibre()){
+                            // alors on a trouve le livre qui correspond : bon ISBN et bien libre
+                            monvecteur[i]->SetEtat(Prete);
+                            break; // je sors de la boucle pour ne pas emprunter un autre meme livre 
+                        }
+                    }
+                }
+            } catch (const std::exception& e){
+                std::cout<< "exception geree" << e.what() << "\n";
+                //
+            }
+        }
+
         void Demander(Livre* pMonLivre, Bibliotheque maBiblio) {
             try {
                 
@@ -131,14 +178,13 @@ class Bibliotheque {
                 } else {
                     // alors la bibliotheque contient ce livre ET il est libre
                     // alors on ajoute une copie de ce livre, ou on precise son etat
-                    Livre Copie = *pMonLivre; 
-                    Copie.SetEtat(Libre); // le livre peut etre emprunte dans la nouvelle bibliotheque 
-                    // on cree un pointeur de la copie afin de la rajouter a ma biblio
-                    Livre* pCopie = &Copie;
+                    // on utilise NEW afin que le pointeur soit valide
+                    Livre* pCopie = new Livre(*pMonLivre);
                     this->AjouterLivre(pCopie);
+                    std::cout<<"livre bien ajoute";
 
                     // puis on precise dans la biblio ou il a ete pris que il est emprunte
-                    maBiblio.EmprunterLivre( pMonLivre);
+                    maBiblio.PreterLivre( pMonLivre);
                     
 
                     
