@@ -14,7 +14,11 @@ class BandeDessinee : public Livre {
                 Livre::myBT = BT_bandeDessinee;
             }
 
-        std::string GetDessinateur(){
+        BandeDessinee(const BandeDessinee& maBD) : Livre(maBD), Dessinateur(maBD.GetDessinateur()){
+            this->setBT(BT_bandeDessinee);
+        }
+
+        std::string GetDessinateur() const{
             return Dessinateur;
         }
 

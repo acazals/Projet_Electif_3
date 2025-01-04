@@ -12,12 +12,16 @@ class ReceuilPoesie : public Livre {
             {
                 myBT = BT_receuilPoesie;
             }
+        
+        ReceuilPoesie( const ReceuilPoesie& monLIvre) : Livre(monLIvre), Indicateur(monLIvre.getIndicateur()){
+            this->setBT(BT_receuilPoesie);
+        }
 
-        Booktype getBT(){
+        Booktype getBT() const{
             return myBT;
         }
 
-        std::string getIndicateur(){
+        std::string getIndicateur() const{
             return Indicateur;
         }
 

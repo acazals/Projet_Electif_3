@@ -13,10 +13,16 @@ class Roman : public Livre {
                 Livre::myBT = BT_rman;
             }
 
+        Roman (const Roman& monLivre) : Livre (monLivre), genre(monLivre.getGenre()) {
+            
+            this->setBT(BT_rman);
+
+        }
+
         Booktype getBT(){
             return myBT;
         }
-        std::string getGenre(){
+        std::string getGenre() const{
             return genre;
         }
 

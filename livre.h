@@ -1,6 +1,7 @@
 #ifndef LIVRE_H
 #define LIVRE_H
 #include <iostream>
+class Bibliotheque;
 
 // class Booktype de type enum : permet 
 enum Booktype {BT_none, BT_rman, BT_bandeDessinee, BT_album, BT_receuilPoesie, BT_pieceTheatre};
@@ -17,15 +18,12 @@ std::string booktypeToString(Booktype bt) {
     }
 }
 
-enum Etat {Libre, Prete, Emprunte, EmprunteAutreBiblio, PreteAutreBiblio};
+enum Etat {Libre, Emprunte};
 
 std::string etatToString(Etat etat) {
     switch (etat) {
         case Libre: return "Libre";
-        case Prete: return "Prete";
         case Emprunte: return "Emprunte";
-        case EmprunteAutreBiblio: return "Emprunte par une autre Biblio";
-        case PreteAutreBiblio: return "Prete a une autre Biblio";
         default: return "Unknown";
     }
 }
@@ -39,6 +37,9 @@ class Livre {
         int ISBN;
         std::string Public;
         Etat etat;
+        bool preteAutreBiblio;
+        Bibliotheque* Proprietaire;
+        Bibliotheque* Emprunteuse;
         
     protected :
         Booktype myBT;
@@ -53,11 +54,63 @@ class Livre {
             Public = monpublic;
             etat = monetat;
             myBT= BT_none;
+            Proprietaire = nullptr;
+            Emprunteuse = nullptr;
+            bool preteAutreBiblio = false;
+
 
         }
 
+        Livre(const Livre& monLivre){
+            code = monLivre.getCode();
+            auteur = monLivre.getAuteur();
+            editeur = monLivre.getEditeur();
+            ISBN = monLivre.getISBN();
+            Public = monLivre.getPublic();
+            etat = monLivre.getEtat();
+            myBT = monLivre.getBT();
+            Proprietaire = monLivre.getProprio();
+            Emprunteuse = monLivre.getEmprunteuse();
+            preteAutreBiblio = monLivre.getEstPreteAutreBiblio();
+
+
+
+        } // C++, le constructeur de recopie doit recevoir un paramètre de type référence constante à l'objet de la classe
+
         Booktype getBT() const{
             return myBT;
+        }
+
+        void setProprietaire(Bibliotheque* maBiblio){
+            this->Proprietaire = maBiblio;
+        }
+
+        void setReceveuse(Bibliotheque* Emprunteuse) {
+            this->Emprunteuse = Emprunteuse;
+           
+        }
+
+        void setPreteAutreBiblio(bool temp) {
+            this->preteAutreBiblio = temp;
+            
+        }
+
+
+        bool getEstPreteAutreBiblio() const {
+            return preteAutreBiblio;
+        }
+
+        
+        Bibliotheque* getProprio() const{
+            return this->Proprietaire;
+        }
+
+        Bibliotheque* getEmprunteuse() const {
+            return this->Emprunteuse;
+        }
+
+        void setBT(Booktype monBT){
+            myBT = monBT;
         }
 
         virtual void Afficher() {
@@ -68,6 +121,9 @@ class Livre {
             std::cout<< " Public : " << getPublic() << "\n";
             std::cout<< " etat : " << etatToString(getEtat()) << "\n";
             std::cout<< "BT: " << booktypeToString(myBT) << "\n";
+            std::cout<< "Est pretee autre biblio " << this->getEstPreteAutreBiblio() <<"\n";
+            std::cout<< "Proprio "<< this->getProprio() << "\n";
+            std::cout<< "Emprunteuse " << this->getEmprunteuse()<< "\n";
         };
 
         int getCode() const{
@@ -90,7 +146,7 @@ class Livre {
             return editeur;
         }
 
-        std::string getPublic() {
+        std::string getPublic() const {
             return Public;
         }
 
@@ -104,17 +160,7 @@ class Livre {
             }
         }
 
-        void EmpruntAutreBiblio() {
-            if (etat == Libre) {
-                etat = EmprunteAutreBiblio;
-            }
-        }
-
-        void RendreAutreBiblio(){
-            if (etat == EmprunteAutreBiblio){
-                etat = Libre;
-            }
-        }
+        
 
         void Preter() {
             if (etat == Libre) {

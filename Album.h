@@ -14,7 +14,11 @@ class Album : public Livre {
                 Livre::myBT = BT_album;
             }
 
-        std::string getIllustrations(){
+        Album (const Album& monAlbum) : Livre(monAlbum), illustrations(monAlbum.getIllustrations()) {
+            this->setBT(BT_album);
+        }
+
+        std::string getIllustrations() const{
             return illustrations;
         }
 

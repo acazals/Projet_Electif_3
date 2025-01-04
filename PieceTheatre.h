@@ -14,11 +14,14 @@ class PieceTheatre : public Livre {
                 myBT = BT_pieceTheatre;
             }
 
+        PieceTheatre(const PieceTheatre& monLivre): Livre(monLivre), siecle(monLivre.getSiecle()){ 
+            this->setBT(BT_pieceTheatre);
+         }
         Booktype getBT(){
             return myBT;
         }
 
-        int getSiecle(){
+        int getSiecle() const{
             return siecle;
         }
 
