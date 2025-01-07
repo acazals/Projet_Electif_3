@@ -81,20 +81,46 @@ int main () {
     // std::cout<< "AJOUT" << "\n";
     // bibliotheque1.Afficher(BT_bandeDessinee); // la fonction ajout marche bien !
 
-    // // bibliotheque2.Afficher(BT_bandeDessinee);
-    bibliotheque1.Demander(Biblio2_BD1, bibliotheque2);
-    // // std::cout<< "EMPRUNT" << "\n";
-    // // bibliotheque2.Afficher(BT_bandeDessinee); // la fonction pret entre bibliotheques marche bien !!
+    // // // bibliotheque2.Afficher(BT_bandeDessinee);
+    // bibliotheque1.Demander(Biblio2_BD1, bibliotheque2);
+    // // // std::cout<< "EMPRUNT" << "\n";
+    // // // bibliotheque2.Afficher(BT_bandeDessinee); // la fonction pret entre bibliotheques marche bien !!
 
 
+    // adherent1.Emprunter(Biblio2_BD1);
+    // //std::cout<<"\n erreur livre pas dans la biblio \n";
+    // adherent1.Emprunter(Biblio3_BD1); // erreur mauvaise bibliotheque 
+    // adherent1.afficher();
+    // bibliotheque1.Rendre(Biblio2_BD1);
+    // adherent1.Rendre(Biblio2_BD1);
+    // // // test de la fonction rendre
+    // bibliotheque1.Rendre(Biblio2_BD1);
+    // std::cout<< "RETOUR" << "\n \n \n";
+    // bibliotheque1.Afficher(BT_bandeDessinee)
+
+    // test quand on plusieurs memes exemplaires
+    Livre* Biblio2_BD1_copie = new BandeDessinee(1033, "Goscinny", "Dargaud", 345678901, "Enfants", Libre, "Uderzo");
+    bibliotheque2.AjouterLivre(Biblio2_BD1_copie);
+    bibliotheque1.Demander(Biblio2_BD1_copie, bibliotheque2);
+    // doit renvoyer une erreur
+    std::cout<<"erreur? \n";
+    adherent3.Emprunter(Biblio2_BD1_copie);
+    adherent3.afficher();
+    Biblio2_BD1_copie->Afficher();
+    // doit marcher
+    adherent3.Emprunter(Biblio2_BD1);
+    adherent3.afficher();
+    std::cout<<" peut pas emprunter la non copie, va emprunter la copie enregistree\n\n";
     adherent1.Emprunter(Biblio2_BD1);
-    adherent1.afficher();
-    adherent1.Rendre(Biblio2_BD1);
-    // // test de la fonction rendre
-    bibliotheque1.Rendre(Biblio2_BD1);
-    std::cout<< "RETOUR" << "\n \n \n";
-    bibliotheque1.Afficher(BT_bandeDessinee)
+    // Biblio2_BD1->Afficher();
+    // adherent1.getMaBiblio()->AutreExemplaireLibre(Biblio2_BD1)->Afficher();
+    
 
+    adherent1.afficher();
+    
+    std::cout<<" marche bien \n";
+    adherent1.Emprunter(Biblio2_BD1_copie);
+    
 
     
     

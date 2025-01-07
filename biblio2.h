@@ -85,6 +85,7 @@ class Bibliotheque {
             
         }
 
+        // methode qui verifie aue la biblio contient EXACTEMENT cet exemplaire du livre
         bool ContientLivre(Livre* MonLivre)  {
             // on recupere la vector associe au type
             // si la bibliotheque ne possede pas de livres de ce type alors ca va creer un vecteur vide
@@ -96,19 +97,77 @@ class Bibliotheque {
 
             std::vector<Livre*>& monvecteur = monDictionnaire[MonLivre->getBT()];
             for (int i=0; i<monvecteur.size(); i++) {
+                    // operateur == sur des pointeurs : compare l'adresse memoire
+                    // renvoie true uniquement si c'est le mm objet 
                 if ( (monvecteur[i] != nullptr) && MonLivre == monvecteur[i]) {
-                    // operateur == base sur l'ISBN
+
                     return true;
                 }
             }
             return false;
              } 
             catch (const std::exception& e) {
-                std::cout<< "Exception Capturee";
+                std::cout<< "Exception Capturee" << e.what() << "\n";
                 return false;
             }
             // si livre pas trouve alors false
         }
+
+        bool ContientExemplaire(Livre* MonLivre)  {
+            // on recupere la vector associe au type
+            // si la bibliotheque ne possede pas de livres de ce type alors ca va creer un vecteur vide
+
+            try {
+                if (MonLivre == nullptr) {
+                    throw std::runtime_error("pointeur nul");
+                }
+
+            std::vector<Livre*>& monvecteur = monDictionnaire[MonLivre->getBT()];
+            for (int i=0; i<monvecteur.size(); i++) {
+                    // operateur == sur des instances de livres : compare les ISBN 
+                if ( (monvecteur[i] != nullptr) && *MonLivre == *monvecteur[i]) {
+
+                    return true;
+                }
+            }
+            return false;
+             } 
+            catch (const std::exception& e) {
+                std::cout<< "Exception Capturee" << e.what() << "\n";
+                return false;
+            }
+            // si livre pas trouve alors false
+        }
+
+
+        // methode pour emprunter un autre exemplaire d'un livre
+        Livre* AutreExemplaireLibre(Livre* pMonLivre) {
+            try {
+                    if (pMonLivre == nullptr) {
+                        throw std::runtime_error("pointeur nul");
+                    }
+
+                std::vector<Livre*>& monvecteur = monDictionnaire[pMonLivre->getBT()];
+                for (int i=0; i<monvecteur.size(); i++) {
+                        // operateur == sur des objets Livre : utilise la redefinition d'operateur ==
+                        
+                    if ( (monvecteur[i] != nullptr) && *pMonLivre == *monvecteur[i]) {
+                        if (monvecteur[i]->EstLibre()){
+                            return monvecteur[i];
+                        }
+                        
+                    }
+                }
+
+                throw std::runtime_error(" Pas de meme exemplaire de ce livre ou alors deja emprunte aussi;");
+                } 
+                catch (const std::exception& e) {
+                    std::cout<< "Exception Capturee" << e.what() << "\n";
+                    return nullptr;
+                }
+                // pas de mm exemplaire de libre
+            }
+
 
         void SupprimerLivre(Livre* pmonlivre){
             // on fait  une reference du vecteur pour avoir l'objet monvecteur
@@ -126,7 +185,7 @@ class Bibliotheque {
             }
              }
             catch (const std::exception& e) {
-                std::cout<< "Exception Capturee";
+                std::cout<< "Exception Capturee" << e.what() << "\n";
             }
         }
 
@@ -148,7 +207,7 @@ class Bibliotheque {
                     throw std::runtime_error("Livre non existant");
                 }
             }catch (const std::exception& e) {
-                std::cout<< "Exception Capturee";
+                std::cout<< "Exception Capturee" << e.what() << "\n";
             }
         }
 
@@ -217,15 +276,20 @@ class Bibliotheque {
 
         void Rendre(Livre* pMonLivre) {
             try {
+                if (this->ContientLivre(pMonLivre) == false ) {
+                    throw std::runtime_error("Livre pas dans cette bibliotheque! \n");
+                }
                 if (pMonLivre->getEstPreteAutreBiblio() == false) {
                     throw std::runtime_error("Livre qui n'a pas ete emprunte par une autre biblio! \n");
+                } if (pMonLivre->EstLibre() == true) {
+                    throw std::runtime_error("Livre actuellement emprunte par un adherent !  \n");
                 } else {
                     pMonLivre->setPreteAutreBiblio(false); // livre plus prete
                     pMonLivre->setReceveuse(nullptr);
                 }
             }
             catch( const std::exception& e) {
-                std::cout<< "Livre qui n'a pas ete emprunte par une autre biblio! \n";
+                std::cout<< "Exception Capturee \n" << e.what() << "\n";
             }
         } 
 
